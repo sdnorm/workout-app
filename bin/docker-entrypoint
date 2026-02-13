@@ -2,17 +2,8 @@
 
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  # Wait for storage directory to be writable (Railway volume mount may be delayed)
-  echo "Waiting for storage directory..."
-  for i in $(seq 1 30); do
-    if touch /rails/storage/.healthcheck 2>/dev/null; then
-      rm -f /rails/storage/.healthcheck
-      echo "Storage ready."
-      break
-    fi
-    echo "Storage not ready, retrying in 2s... ($i/30)"
-    sleep 2
-  done
+  # Brief wait for Railway volume mount
+  sleep 3
 
   ./bin/rails db:prepare
 fi
