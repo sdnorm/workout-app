@@ -1,0 +1,26 @@
+active:
+  user: one
+  start_date: <%= Date.current %>
+  end_date: <%= Date.current + 4.weeks %>
+  duration_weeks: 4
+  current_week: 1
+  status: 0
+  split_type: push_pull_legs
+
+week_three:
+  user: one
+  start_date: <%= Date.current - 2.weeks %>
+  end_date: <%= Date.current + 2.weeks %>
+  duration_weeks: 4
+  current_week: 3
+  status: 0
+  split_type: push_pull_legs
+
+completed_meso:
+  user: one
+  start_date: <%= Date.current - 5.weeks %>
+  end_date: <%= Date.current - 1.week %>
+  duration_weeks: 4
+  current_week: 4
+  status: 1
+  split_type: upper_lower

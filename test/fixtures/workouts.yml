@@ -1,0 +1,26 @@
+planned_gym:
+  user: one
+  mesocycle: active
+  workout_type: 0
+  location: 1
+  date: <%= Date.current %>
+  status: 0
+  week_number: 1
+
+in_progress_gym:
+  user: one
+  mesocycle: active
+  workout_type: 0
+  location: 1
+  date: <%= Date.current %>
+  status: 1
+  week_number: 1
+
+completed_gym:
+  user: one
+  mesocycle: active
+  workout_type: 0
+  location: 1
+  date: <%= Date.current - 2.days %>
+  status: 2
+  week_number: 1

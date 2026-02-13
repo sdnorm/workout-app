@@ -1,0 +1,23 @@
+bench_in_progress:
+  workout: in_progress_gym
+  exercise: bench_press
+  position: 1
+  target_sets: 3
+  target_reps: "8-12"
+  target_rir: 3
+
+row_in_progress:
+  workout: in_progress_gym
+  exercise: barbell_row
+  position: 2
+  target_sets: 3
+  target_reps: "8-12"
+  target_rir: 3
+
+bench_completed:
+  workout: completed_gym
+  exercise: bench_press
+  position: 1
+  target_sets: 3
+  target_reps: "8-12"
+  target_rir: 3

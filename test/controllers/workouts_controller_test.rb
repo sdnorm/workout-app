@@ -1,0 +1,48 @@
+require "test_helper"
+
+class WorkoutsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    sign_in_as users(:one)
+  end
+
+  test "index shows workouts" do
+    get workouts_url
+    assert_response :success
+  end
+
+  test "new shows location picker" do
+    get new_workout_url
+    assert_response :success
+    assert_select "input[name='workout[location]']"
+  end
+
+  test "create creates a workout" do
+    assert_difference("Workout.count") do
+      post workouts_url, params: { workout: { workout_type: "strength", location: "gym" } }
+    end
+  end
+
+  test "show displays workout" do
+    get workout_url(workouts(:in_progress_gym))
+    assert_response :success
+  end
+
+  test "complete marks workout as completed" do
+    post complete_workout_url(workouts(:in_progress_gym))
+    assert_redirected_to workouts_url
+    assert workouts(:in_progress_gym).reload.completed?
+  end
+
+  test "destroy deletes workout" do
+    assert_difference("Workout.count", -1) do
+      delete workout_url(workouts(:planned_gym))
+    end
+    assert_redirected_to workouts_url
+  end
+
+  test "requires authentication" do
+    sign_out
+    get workouts_url
+    assert_redirected_to new_session_url
+  end
+end

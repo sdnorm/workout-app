@@ -1,0 +1,24 @@
+chest:
+  name: Chest
+  default_mev: 8
+  default_mrv: 22
+
+back:
+  name: Back
+  default_mev: 8
+  default_mrv: 22
+
+quads:
+  name: Quads
+  default_mev: 6
+  default_mrv: 20
+
+biceps:
+  name: Biceps
+  default_mev: 4
+  default_mrv: 20
+
+triceps:
+  name: Triceps
+  default_mev: 4
+  default_mrv: 18

@@ -1,0 +1,26 @@
+chest_active:
+  mesocycle: active
+  muscle_group: chest
+  starting_sets: 8
+  current_sets: 8
+  mev: 8
+  mav: 15
+  mrv: 22
+
+back_active:
+  mesocycle: active
+  muscle_group: back
+  starting_sets: 8
+  current_sets: 8
+  mev: 8
+  mav: 15
+  mrv: 22
+
+quads_active:
+  mesocycle: active
+  muscle_group: quads
+  starting_sets: 6
+  current_sets: 6
+  mev: 6
+  mav: 13
+  mrv: 20

@@ -1,0 +1,62 @@
+bench_press:
+  name: Barbell Bench Press
+  muscle_group: chest
+  equipment: barbell
+  movement_type: 0
+  available_at: 1
+
+dumbbell_bench:
+  name: Dumbbell Bench Press
+  muscle_group: chest
+  equipment: dumbbells
+  movement_type: 0
+  available_at: 2
+
+dumbbell_flyes:
+  name: Dumbbell Flyes
+  muscle_group: chest
+  equipment: dumbbells
+  movement_type: 1
+  available_at: 2
+
+barbell_row:
+  name: Barbell Row
+  muscle_group: back
+  equipment: barbell
+  movement_type: 0
+  available_at: 1
+
+pull_ups:
+  name: Pull-Ups
+  muscle_group: back
+  equipment: bodyweight
+  movement_type: 0
+  available_at: 2
+
+barbell_squat:
+  name: Barbell Back Squat
+  muscle_group: quads
+  equipment: barbell
+  movement_type: 0
+  available_at: 1
+
+goblet_squat:
+  name: Goblet Squat
+  muscle_group: quads
+  equipment: dumbbells
+  movement_type: 0
+  available_at: 2
+
+barbell_curl:
+  name: Barbell Curl
+  muscle_group: biceps
+  equipment: barbell
+  movement_type: 1
+  available_at: 1
+
+dumbbell_curl:
+  name: Dumbbell Curl
+  muscle_group: biceps
+  equipment: dumbbells
+  movement_type: 1
+  available_at: 2

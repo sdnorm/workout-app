@@ -1,0 +1,35 @@
+<%= form_with model: run, class: "space-y-4" do |f| %>
+  <div>
+    <label class="block text-sm font-medium text-gray-300 mb-1">Date</label>
+    <%= f.date_field :date, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-100" %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Distance (miles)</label>
+      <%= f.number_field :distance, step: 0.01, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-100" %>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Duration (min)</label>
+      <%= f.number_field :duration_minutes, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-100" %>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-300 mb-1">Type</label>
+    <%= f.select :run_type, [["Easy", "easy"], ["Tempo", "tempo"], ["Intervals", "intervals"], ["Long", "long"], ["Race", "race"]],
+      { include_blank: "Select type" },
+      class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-100" %>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-300 mb-1">Notes</label>
+    <%= f.text_area :notes, rows: 3, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-100",
+      placeholder: "How did it feel?" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit class: "flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition cursor-pointer" %>
+    <%= link_to "Cancel", runs_path, class: "flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition text-center" %>
+  </div>
+<% end %>

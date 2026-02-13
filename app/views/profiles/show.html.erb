@@ -1,0 +1,44 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Profile</h1>
+
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-4">
+    <div>
+      <p class="text-sm text-gray-400">Email</p>
+      <p class="font-medium"><%= @user.email_address %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-400">Training Experience</p>
+      <p class="font-medium"><%= @user.training_experience.humanize %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-400">AI Provider</p>
+      <p class="font-medium"><%= @user.default_provider.humanize %></p>
+    </div>
+
+    <%= link_to "Edit Profile", edit_profile_path,
+      class: "block w-full text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition" %>
+  </div>
+
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+    <h2 class="font-semibold mb-3">Stats</h2>
+    <div class="grid grid-cols-3 gap-4 text-center">
+      <div>
+        <p class="text-2xl font-bold text-blue-400"><%= @user.workouts.completed.count %></p>
+        <p class="text-xs text-gray-400">Workouts</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-blue-400"><%= @user.runs.count %></p>
+        <p class="text-xs text-gray-400">Runs</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-blue-400"><%= @user.mesocycles.completed.count %></p>
+        <p class="text-xs text-gray-400">Mesocycles</p>
+      </div>
+    </div>
+  </div>
+
+  <%= button_to "Sign Out", session_path, method: :delete,
+    class: "w-full text-center bg-red-900/30 hover:bg-red-900/50 text-red-400 font-medium py-3 rounded-lg border border-red-800 transition" %>
+</div>

@@ -1,0 +1,41 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Start Workout</h1>
+
+  <%= form_with model: @workout, class: "space-y-6" do |f| %>
+    <%= f.hidden_field :workout_type, value: "strength" %>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-3">Where are you training?</label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="cursor-pointer">
+          <input type="radio" name="workout[location]" value="gym" class="peer hidden" checked>
+          <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl p-6 text-center transition">
+            <svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <span class="font-semibold text-lg">Gym</span>
+          </div>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="workout[location]" value="home" class="peer hidden">
+          <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl p-6 text-center transition">
+            <svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="font-semibold text-lg">Home</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <% if @active_mesocycle %>
+      <div class="bg-gray-900 rounded-lg border border-gray-800 p-3 text-sm">
+        <p class="text-gray-400">Mesocycle: <span class="text-gray-200"><%= @active_mesocycle.split_type.humanize %></span></p>
+        <p class="text-gray-400">Week: <span class="text-gray-200"><%= @active_mesocycle.current_week %> of <%= @active_mesocycle.duration_weeks %></span></p>
+        <p class="text-gray-400">Target RIR: <span class="text-gray-200"><%= @active_mesocycle.target_rir %></span></p>
+      </div>
+    <% else %>
+      <div class="bg-yellow-900/30 rounded-lg border border-yellow-800 p-3 text-sm text-yellow-200">
+        No active mesocycle. <%= link_to "Create one", new_mesocycle_path, class: "underline font-medium" %> for periodized training.
+      </div>
+    <% end %>
+
+    <%= f.submit "Generate Workout", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition cursor-pointer" %>
+  <% end %>
+</div>

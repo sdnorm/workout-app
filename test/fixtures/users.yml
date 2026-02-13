@@ -1,0 +1,7 @@
+<% password_digest = BCrypt::Password.create("password") %>
+
+one:
+  email_address: user@example.com
+  password_digest: <%= password_digest %>
+  training_experience: 1
+  default_provider: anthropic

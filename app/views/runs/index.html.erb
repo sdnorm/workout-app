@@ -1,0 +1,46 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Runs</h1>
+    <%= link_to "Log Run", new_run_path,
+      class: "bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition" %>
+  </div>
+
+  <% if @runs.any? %>
+    <div class="space-y-2">
+      <% @runs.each do |run| %>
+        <%= link_to edit_run_path(run), class: "block bg-gray-900 rounded-lg border border-gray-800 p-4 hover:border-gray-700 transition" do %>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium">
+                <% if run.distance.present? %>
+                  <%= run.distance %> mi
+                <% end %>
+                <% if run.run_type.present? %>
+                  <span class="text-gray-400">&middot; <%= run.run_type.humanize %></span>
+                <% end %>
+              </p>
+              <p class="text-sm text-gray-400"><%= run.date.strftime("%b %d, %Y") %></p>
+            </div>
+            <div class="text-right">
+              <% if run.duration_minutes.present? %>
+                <p class="font-medium"><%= run.duration_minutes %> min</p>
+              <% end %>
+              <% if run.display_pace.present? %>
+                <p class="text-sm text-gray-400"><%= run.display_pace %></p>
+              <% end %>
+            </div>
+          </div>
+          <% if run.notes.present? %>
+            <p class="text-sm text-gray-500 mt-2"><%= run.notes %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 mb-4">No runs logged yet.</p>
+      <%= link_to "Log Your First Run", new_run_path,
+        class: "text-blue-400 hover:text-blue-300 font-medium" %>
+    </div>
+  <% end %>
+</div>

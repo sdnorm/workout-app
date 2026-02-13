@@ -1,0 +1,56 @@
+<%= turbo_frame_tag workout_exercise do %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4" id="<%= dom_id(workout_exercise) %>">
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <h3 class="font-semibold text-base"><%= workout_exercise.exercise.name %></h3>
+        <p class="text-xs text-gray-500">
+          <%= workout_exercise.exercise.muscle_group.name %>
+          &middot; <%= workout_exercise.target_sets %> sets
+          <% if workout_exercise.target_reps.present? %>
+            &middot; <%= workout_exercise.target_reps %> reps
+          <% end %>
+          <% if workout_exercise.target_rir.present? %>
+            &middot; RIR <%= workout_exercise.target_rir %>
+          <% end %>
+        </p>
+      </div>
+      <% unless workout_exercise.workout.completed? %>
+        <div class="flex items-center gap-2">
+          <%= button_to "Swap", swap_workout_workout_exercise_path(workout_exercise.workout, workout_exercise),
+            class: "text-xs text-gray-400 hover:text-blue-400 transition",
+            data: { turbo_confirm: "Swap this exercise?" } %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if workout_exercise.notes.present? %>
+      <p class="text-xs text-gray-500 italic mb-3"><%= workout_exercise.notes %></p>
+    <% end %>
+
+    <!-- Logged Sets -->
+    <div class="space-y-1 mb-3" id="<%= dom_id(workout_exercise, :sets) %>">
+      <div class="grid grid-cols-12 gap-2 text-xs text-gray-500 font-medium px-1">
+        <div class="col-span-1">Set</div>
+        <div class="col-span-3">Weight</div>
+        <div class="col-span-2">Reps</div>
+        <div class="col-span-2">RIR</div>
+        <div class="col-span-4"></div>
+      </div>
+      <% workout_exercise.exercise_sets.each do |exercise_set| %>
+        <%= render "exercise_sets/exercise_set", exercise_set: exercise_set, workout_exercise: workout_exercise, workout: workout_exercise.workout %>
+      <% end %>
+    </div>
+
+    <!-- Add Set Form -->
+    <% unless workout_exercise.workout.completed? %>
+      <% if workout_exercise.completed_sets.count < workout_exercise.target_sets %>
+        <%= render "exercise_sets/form",
+          workout: workout_exercise.workout,
+          workout_exercise: workout_exercise,
+          exercise_set: workout_exercise.exercise_sets.new %>
+      <% else %>
+        <p class="text-xs text-green-400 text-center py-1">All sets completed</p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

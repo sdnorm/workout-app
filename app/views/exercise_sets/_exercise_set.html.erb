@@ -1,0 +1,36 @@
+<div class="grid grid-cols-12 gap-2 items-center py-1.5 px-1 rounded <%= exercise_set.completed? ? 'bg-gray-800/50' : '' %>"
+     id="<%= dom_id(exercise_set) %>">
+  <div class="col-span-1 text-sm text-gray-400 font-medium">
+    <%= exercise_set.set_number %>
+  </div>
+  <div class="col-span-3 text-sm">
+    <% if exercise_set.weight.present? %>
+      <%= exercise_set.weight.to_i %><span class="text-gray-500 text-xs">lbs</span>
+    <% else %>
+      <span class="text-gray-600">—</span>
+    <% end %>
+  </div>
+  <div class="col-span-2 text-sm">
+    <%= exercise_set.reps || "—" %>
+  </div>
+  <div class="col-span-2 text-sm">
+    <% if exercise_set.rir.present? %>
+      <%= exercise_set.rir %>
+    <% else %>
+      <span class="text-gray-600">—</span>
+    <% end %>
+  </div>
+  <div class="col-span-4 flex items-center justify-end gap-2">
+    <% if exercise_set.completed? %>
+      <span class="text-green-400 text-xs">Done</span>
+    <% end %>
+    <% unless workout.completed? %>
+      <%= button_to workout_workout_exercise_exercise_set_path(workout, workout_exercise, exercise_set),
+        method: :delete,
+        class: "text-gray-600 hover:text-red-400 text-xs transition",
+        data: { turbo_confirm: "Remove this set?" } do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <% end %>
+    <% end %>
+  </div>
+</div>

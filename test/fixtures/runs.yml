@@ -1,0 +1,14 @@
+easy_run:
+  user: one
+  date: <%= Date.current %>
+  distance: 3.1
+  duration_minutes: 28
+  run_type: easy
+  notes: Felt good, easy pace
+
+long_run:
+  user: one
+  date: <%= Date.current - 3.days %>
+  distance: 6.0
+  duration_minutes: 54
+  run_type: long

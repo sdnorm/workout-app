@@ -1,0 +1,23 @@
+bench_set_one:
+  workout_exercise: bench_in_progress
+  set_number: 1
+  reps: 10
+  weight: 135.0
+  rir: 3
+  completed: true
+
+bench_set_two:
+  workout_exercise: bench_in_progress
+  set_number: 2
+  reps: 9
+  weight: 135.0
+  rir: 2
+  completed: true
+
+completed_bench_set:
+  workout_exercise: bench_completed
+  set_number: 1
+  reps: 10
+  weight: 130.0
+  rir: 3
+  completed: true

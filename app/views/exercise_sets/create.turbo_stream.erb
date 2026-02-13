@@ -1,0 +1,10 @@
+<%= turbo_stream.append dom_id(@workout_exercise, :sets) do %>
+  <%= render "exercise_sets/exercise_set",
+    exercise_set: @exercise_set,
+    workout_exercise: @workout_exercise,
+    workout: @workout %>
+<% end %>
+
+<%= turbo_stream.replace dom_id(@workout_exercise) do %>
+  <%= render "workout_exercises/workout_exercise", workout_exercise: @workout_exercise.reload %>
+<% end %>

@@ -1,0 +1,66 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Workouts</h1>
+
+  <% if @current_workout %>
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold">Current Workout</h2>
+        <span class="text-xs px-2 py-1 rounded-full bg-blue-900/50 text-blue-300 border border-blue-800">
+          <%= @current_workout.status.humanize %>
+        </span>
+      </div>
+      <p class="text-gray-400 text-sm mb-3">
+        <%= @current_workout.date.strftime("%A, %b %d") %>
+        &middot; <%= @current_workout.location&.humanize %>
+        <% if @current_workout.workout_exercises.any? %>
+          &middot; <%= @current_workout.workout_exercises.count %> exercises
+        <% end %>
+      </p>
+      <%= link_to "Continue Workout", workout_path(@current_workout),
+        class: "block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition" %>
+    </div>
+  <% else %>
+    <%= link_to new_workout_path, class: "block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-center text-lg transition" do %>
+      Start Workout
+    <% end %>
+  <% end %>
+
+  <% if @active_mesocycle %>
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Current Mesocycle</p>
+          <p class="font-semibold"><%= @active_mesocycle.split_type.humanize %></p>
+        </div>
+        <div class="text-right">
+          <p class="text-sm text-gray-400">Week</p>
+          <p class="text-2xl font-bold text-blue-400"><%= @active_mesocycle.current_week %><span class="text-sm text-gray-500">/<%= @active_mesocycle.duration_weeks %></span></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @recent_workouts.any? %>
+    <div>
+      <h2 class="text-lg font-semibold mb-3">Recent Workouts</h2>
+      <div class="space-y-2">
+        <% @recent_workouts.each do |workout| %>
+          <%= link_to workout_path(workout), class: "block bg-gray-900 rounded-lg border border-gray-800 p-3 hover:border-gray-700 transition" do %>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium"><%= workout.location&.humanize %> <%= workout.workout_type.humanize %></p>
+                <p class="text-sm text-gray-400"><%= workout.date.strftime("%b %d, %Y") %></p>
+              </div>
+              <div class="text-right text-sm text-gray-400">
+                <%= workout.workout_exercises.count %> exercises
+                <% if workout.week_number %>
+                  <br>Week <%= workout.week_number %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<%= form_with model: [workout, workout_exercise, exercise_set],
+  class: "grid grid-cols-12 gap-2 items-end pt-2 border-t border-gray-800",
+  data: { controller: "set-form" } do |f| %>
+  <div class="col-span-1 text-sm text-gray-500 font-medium pb-2">
+    <%= workout_exercise.next_set_number %>
+  </div>
+  <div class="col-span-3">
+    <%= f.number_field :weight, placeholder: "lbs", step: 2.5,
+      class: "w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm text-gray-100",
+      data: { set_form_target: "weight" } %>
+  </div>
+  <div class="col-span-2">
+    <%= f.number_field :reps, placeholder: "reps",
+      class: "w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm text-gray-100" %>
+  </div>
+  <div class="col-span-2">
+    <%= f.number_field :rir, placeholder: "RIR", min: 0, max: 5,
+      class: "w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm text-gray-100" %>
+  </div>
+  <div class="col-span-4">
+    <%= f.hidden_field :completed, value: true %>
+    <%= f.submit "Log",
+      class: "w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1.5 rounded transition cursor-pointer" %>
+  </div>
+<% end %>

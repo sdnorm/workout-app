@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+/* Safe area for bottom nav on notched devices */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Form color scheme for dark mode */
+input[type="date"],
+input[type="number"],
+select {
+  color-scheme: dark;
+}
