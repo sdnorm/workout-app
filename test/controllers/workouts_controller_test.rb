@@ -40,6 +40,40 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to workouts_url
   end
 
+  test "generate enqueues job and redirects" do
+    workout = workouts(:planned_gym)
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+      post generate_workout_url(workout)
+    end
+    assert_redirected_to workout_url(workout)
+    assert workout.reload.generating?
+  end
+
+  test "regenerate clears exercises and enqueues job" do
+    workout = workouts(:in_progress_gym)
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+      post regenerate_workout_url(workout)
+    end
+    assert_redirected_to workout_url(workout)
+    assert workout.reload.generating?
+  end
+
+  test "show displays generating state" do
+    workout = workouts(:planned_gym)
+    workout.update!(status: :generating)
+    get workout_url(workout)
+    assert_response :success
+    assert_select "[data-controller='poll']"
+  end
+
+  test "show displays generation_failed state" do
+    workout = workouts(:planned_gym)
+    workout.update!(status: :generation_failed, generation_error: "API error")
+    get workout_url(workout)
+    assert_response :success
+    assert_select "p", text: /API error/
+  end
+
   test "requires authentication" do
     sign_out
     get workouts_url

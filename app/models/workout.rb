@@ -9,7 +9,7 @@ class Workout < ApplicationRecord
 
   enum :workout_type, { strength: 0, run: 1 }
   enum :location, { home: 0, gym: 1 }
-  enum :status, { planned: 0, in_progress: 1, completed: 2 }
+  enum :status, { planned: 0, in_progress: 1, completed: 2, generating: 3, generation_failed: 4 }
 
   validates :date, presence: true
   validates :workout_type, presence: true

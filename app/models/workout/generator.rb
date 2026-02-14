@@ -33,7 +33,7 @@ class Workout::Generator
   private
 
   def create_chat
-    chat = user.chats.create!(model_id: user.default_provider_model)
+    chat = user.chats.create!(model: user.default_provider_model)
     chat.with_instructions(system_prompt)
     chat
   end

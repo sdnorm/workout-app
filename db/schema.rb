@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_13_222336) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_14_000718) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -223,6 +223,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_13_222336) do
   create_table "workouts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "date"
+    t.text "generation_error"
     t.integer "location"
     t.integer "mesocycle_id"
     t.text "notes"

@@ -2,7 +2,7 @@ class WorkoutsController < ApplicationController
   before_action :set_workout, only: [ :show, :edit, :update, :destroy, :generate, :regenerate, :complete ]
 
   def index
-    @current_workout = Current.user.workouts.where(status: [ :planned, :in_progress ]).order(created_at: :desc).first
+    @current_workout = Current.user.workouts.where(status: [ :planned, :in_progress, :generating ]).order(created_at: :desc).first
     @recent_workouts = Current.user.workouts.completed.recent.limit(10)
     @active_mesocycle = Current.user.active_mesocycle
   end
@@ -50,31 +50,16 @@ class WorkoutsController < ApplicationController
   end
 
   def generate
-    generator = Workout::Generator.new(
-      user: Current.user,
-      workout: @workout
-    )
-
-    if generator.generate
-      redirect_to @workout, notice: "Workout generated!"
-    else
-      redirect_to @workout, alert: "Failed to generate workout. #{generator.errors.full_messages.join(', ')}"
-    end
+    @workout.update!(status: :generating, generation_error: nil)
+    GenerateWorkoutJob.perform_later(@workout)
+    redirect_to @workout
   end
 
   def regenerate
     @workout.workout_exercises.destroy_all
-
-    generator = Workout::Generator.new(
-      user: Current.user,
-      workout: @workout
-    )
-
-    if generator.generate
-      redirect_to @workout, notice: "Workout regenerated!"
-    else
-      redirect_to @workout, alert: "Failed to regenerate workout."
-    end
+    @workout.update!(status: :generating, generation_error: nil)
+    GenerateWorkoutJob.perform_later(@workout)
+    redirect_to @workout
   end
 
   def complete
