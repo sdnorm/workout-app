@@ -6,6 +6,7 @@ if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   sleep 3
 
   ./bin/rails db:prepare
+  ./bin/rails ruby_llm:load_models
 fi
 
 exec "${@}"

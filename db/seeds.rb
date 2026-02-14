@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+puts "Loading RubyLLM models..."
+Rake::Task["ruby_llm:load_models"].invoke
+
 puts "Seeding muscle groups..."
 
 muscle_groups_data = {
