@@ -33,3 +33,7 @@ config/credentials/*.key
 
 # Ignore bootsnap cache
 tmp/cache/bootsnap
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
