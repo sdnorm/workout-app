@@ -1,0 +1,35 @@
+# Ignore bundled gems
+/vendor/bundle
+
+# Ignore the default SQLite database
+/storage/*.sqlite3
+/storage/*.sqlite3-*
+
+# Ignore all log files and tempfiles
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles
+/tmp/pids/*
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+# Ignore master key and credential keys
+config/master.key
+config/credentials/development.key
+config/credentials/production.key
+config/credentials/*.key
+
+# Ignore node modules
+/node_modules
+
+# Ignore build artifacts
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Ignore bootsnap cache
+tmp/cache/bootsnap
