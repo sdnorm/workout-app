@@ -56,7 +56,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
   test "generate enqueues job and redirects" do
     workout = workouts(:planned_gym)
-    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [ workout ]) do
       post generate_workout_url(workout)
     end
     assert_redirected_to workout_url(workout)
@@ -65,7 +65,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
   test "regenerate clears exercises and enqueues job" do
     workout = workouts(:in_progress_gym)
-    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [ workout ]) do
       post regenerate_workout_url(workout)
     end
     assert_redirected_to workout_url(workout)
