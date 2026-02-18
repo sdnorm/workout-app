@@ -1,5 +1,5 @@
 <%= turbo_frame_tag workout_exercise do %>
-  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4" id="<%= dom_id(workout_exercise) %>">
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 mb-6" id="<%= dom_id(workout_exercise) %>" data-rest-seconds="<%= workout_exercise.suggested_rest_seconds %>">
     <div class="flex items-center justify-between mb-3">
       <div>
         <h3 class="font-semibold text-base"><%= workout_exercise.exercise.name %></h3>

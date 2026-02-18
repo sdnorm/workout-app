@@ -27,7 +27,9 @@ class WorkoutsController < ApplicationController
     end
 
     if @workout.save
-      redirect_to generate_workout_path(@workout)
+      @workout.update!(status: :generating, generation_error: nil)
+      GenerateWorkoutJob.perform_later(@workout)
+      redirect_to @workout
     else
       render :new, status: :unprocessable_entity
     end
@@ -74,6 +76,6 @@ class WorkoutsController < ApplicationController
   end
 
   def workout_params
-    params.expect(workout: [ :workout_type, :location, :date, :notes ])
+    params.expect(workout: [ :workout_type, :location, :date, :notes, :target_duration_minutes ])
   end
 end

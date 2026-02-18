@@ -13,6 +13,7 @@ class Workout < ApplicationRecord
 
   validates :date, presence: true
   validates :workout_type, presence: true
+  validates :target_duration_minutes, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
   scope :recent, -> { order(date: :desc) }
   scope :strength_workouts, -> { where(workout_type: :strength) }

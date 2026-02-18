@@ -64,6 +64,7 @@ class Workout::Generator
     location = workout.location
 
     prompt = "Generate a #{location} workout for today. "
+    prompt += "Target workout duration: #{workout.target_duration_minutes} minutes (including rest periods). Select exercises and set counts to fit this time frame. "
 
     if mesocycle
       prompt += "This is week #{mesocycle.current_week} of #{mesocycle.duration_weeks} in a #{mesocycle.split_type.humanize} mesocycle. "
@@ -108,10 +109,13 @@ class Workout::Generator
             "sets": 3,
             "reps": "8-12",
             "rir": 2,
+            "rest_seconds": 120,
             "notes": "Brief coaching cue or weight suggestion"
           }
         ]
       }
+
+      rest_seconds guidelines: compound movements 90-180s, isolation movements 60-90s.
 
       Only use exercise names from the available list above. Return ONLY valid JSON, no other text.
     JSON_FORMAT
@@ -157,6 +161,7 @@ class Workout::Generator
         target_sets: ex_data["sets"] || 3,
         target_reps: ex_data["reps"] || "8-12",
         target_rir: ex_data["rir"],
+        rest_seconds: ex_data["rest_seconds"],
         notes: ex_data["notes"]
       )
     end

@@ -24,6 +24,21 @@
       </div>
     </div>
 
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-3">Target duration</label>
+      <div class="grid grid-cols-4 gap-3">
+        <% [30, 45, 60, 75].each do |mins| %>
+          <label class="cursor-pointer">
+            <input type="radio" name="workout[target_duration_minutes]" value="<%= mins %>" class="peer hidden" <%= "checked" if mins == 45 %>>
+            <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl py-3 text-center transition">
+              <span class="font-semibold text-lg"><%= mins %></span>
+              <span class="text-xs text-gray-400 block">min</span>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
     <% if @active_mesocycle %>
       <div class="bg-gray-900 rounded-lg border border-gray-800 p-3 text-sm">
         <p class="text-gray-400">Mesocycle: <span class="text-gray-200"><%= @active_mesocycle.split_type.humanize %></span></p>

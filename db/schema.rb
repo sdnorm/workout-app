@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_14_000718) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_18_055853) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -211,6 +211,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_000718) do
     t.integer "exercise_id", null: false
     t.text "notes"
     t.integer "position"
+    t.integer "rest_seconds"
     t.string "target_reps"
     t.integer "target_rir"
     t.integer "target_sets"
@@ -228,6 +229,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_000718) do
     t.integer "mesocycle_id"
     t.text "notes"
     t.integer "status"
+    t.integer "target_duration_minutes", default: 45
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.integer "week_number"

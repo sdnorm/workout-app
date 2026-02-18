@@ -8,3 +8,7 @@
 <%= turbo_stream.replace dom_id(@workout_exercise) do %>
   <%= render "workout_exercises/workout_exercise", workout_exercise: @workout_exercise.reload %>
 <% end %>
+
+<%= turbo_stream.replace "rest-timer-trigger" do %>
+  <div id="rest-timer-trigger" data-rest-timer-target="trigger" data-rest-seconds="<%= @workout_exercise.suggested_rest_seconds %>"></div>
+<% end %>

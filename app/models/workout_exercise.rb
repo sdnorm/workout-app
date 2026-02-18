@@ -6,6 +6,10 @@ class WorkoutExercise < ApplicationRecord
   validates :position, presence: true
   validates :target_sets, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
+  def suggested_rest_seconds
+    rest_seconds || (exercise.compound? ? 120 : 90)
+  end
+
   def completed_sets
     exercise_sets.where(completed: true)
   end
