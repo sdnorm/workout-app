@@ -11,15 +11,29 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "new shows location picker" do
+    users(:one).workouts.where(status: [ :planned, :in_progress, :generating ]).update_all(status: :completed)
     get new_workout_url
     assert_response :success
     assert_select "input[name='workout[location]']"
   end
 
+  test "new redirects when active workout exists" do
+    get new_workout_url
+    assert_redirected_to workouts_url
+  end
+
   test "create creates a workout" do
+    users(:one).workouts.where(status: [ :planned, :in_progress, :generating ]).update_all(status: :completed)
     assert_difference("Workout.count") do
       post workouts_url, params: { workout: { workout_type: "strength", location: "gym" } }
     end
+  end
+
+  test "create redirects when active workout exists" do
+    assert_no_difference("Workout.count") do
+      post workouts_url, params: { workout: { workout_type: "strength", location: "gym" } }
+    end
+    assert_redirected_to workouts_url
   end
 
   test "show displays workout" do
@@ -42,7 +56,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
   test "generate enqueues job and redirects" do
     workout = workouts(:planned_gym)
-    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [ workout ]) do
       post generate_workout_url(workout)
     end
     assert_redirected_to workout_url(workout)
@@ -51,7 +65,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
   test "regenerate clears exercises and enqueues job" do
     workout = workouts(:in_progress_gym)
-    assert_enqueued_with(job: GenerateWorkoutJob, args: [workout]) do
+    assert_enqueued_with(job: GenerateWorkoutJob, args: [ workout ]) do
       post regenerate_workout_url(workout)
     end
     assert_redirected_to workout_url(workout)

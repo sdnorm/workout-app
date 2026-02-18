@@ -31,6 +31,9 @@
         <p class="text-lg text-purple-300 font-medium">Generating your workout...</p>
       </div>
       <p class="text-sm text-gray-500">This usually takes 10-15 seconds</p>
+      <%= button_to "Discard", workout_path(@workout), method: :delete,
+        form: { data: { turbo_confirm: "Discard this workout?" } },
+        class: "mt-4 text-sm text-gray-500 hover:text-red-400 transition" %>
     </div>
   <% elsif @workout.generation_failed? %>
     <div class="text-center py-8">
@@ -40,14 +43,24 @@
           <p class="text-sm text-red-400/80"><%= @workout.generation_error %></p>
         <% end %>
       </div>
-      <%= button_to "Retry", generate_workout_path(@workout),
-        class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+      <div class="flex items-center justify-center gap-3">
+        <%= button_to "Retry", generate_workout_path(@workout),
+          class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+        <%= button_to "Discard", workout_path(@workout), method: :delete,
+          form: { data: { turbo_confirm: "Discard this workout?" } },
+          class: "text-sm text-gray-500 hover:text-red-400 transition py-3 px-4" %>
+      </div>
     </div>
   <% elsif @workout.planned? && @workout.workout_exercises.empty? %>
     <div class="text-center py-8">
       <p class="text-gray-400 mb-4">No exercises yet. Generate a workout with AI.</p>
-      <%= button_to "Generate Workout", generate_workout_path(@workout),
-        class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+      <div class="flex items-center justify-center gap-3">
+        <%= button_to "Generate Workout", generate_workout_path(@workout),
+          class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+        <%= button_to "Discard", workout_path(@workout), method: :delete,
+          form: { data: { turbo_confirm: "Discard this workout?" } },
+          class: "text-sm text-gray-500 hover:text-red-400 transition py-3 px-4" %>
+      </div>
     </div>
   <% end %>
 
@@ -66,6 +79,9 @@
       <%= button_to "Regenerate", regenerate_workout_path(@workout),
         class: "bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition",
         data: { turbo_confirm: "This will replace all exercises. Continue?" } %>
+      <%= button_to "Discard", workout_path(@workout), method: :delete,
+        form: { data: { turbo_confirm: "Discard this workout?" } },
+        class: "px-4 py-3 rounded-lg border border-gray-700 text-gray-400 hover:text-red-400 hover:border-red-800 transition text-sm font-medium" %>
     </div>
   <% end %>
 
