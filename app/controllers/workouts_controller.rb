@@ -12,11 +12,19 @@ class WorkoutsController < ApplicationController
   end
 
   def new
+    if active_workout = Current.user.workouts.where(status: [ :planned, :in_progress, :generating ]).first
+      redirect_to workouts_path, alert: "You already have an active workout."
+      return
+    end
     @workout = Current.user.workouts.new(date: Date.current)
     @active_mesocycle = Current.user.active_mesocycle
   end
 
   def create
+    if active_workout = Current.user.workouts.where(status: [ :planned, :in_progress, :generating ]).first
+      redirect_to workouts_path, alert: "You already have an active workout."
+      return
+    end
     @workout = Current.user.workouts.new(workout_params)
     @workout.date ||= Date.current
     @workout.status = :planned
