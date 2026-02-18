@@ -1,0 +1,79 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Workout Preferences</h1>
+
+  <% if flash[:notice] %>
+    <div class="bg-green-900/30 border border-green-700 text-green-300 rounded-lg px-4 py-3">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <%# Equipment %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-3">
+    <h2 class="font-semibold text-gray-200">Home Equipment</h2>
+    <% if @preference.home_equipment.any? %>
+      <div class="flex flex-wrap gap-2">
+        <% @preference.equipment_display_names.each do |name| %>
+          <span class="px-2 py-1 text-sm bg-gray-800 text-gray-300 border border-gray-700 rounded-lg"><%= name %></span>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-500">No equipment specified</p>
+    <% end %>
+    <% if @preference.equipment_notes.present? %>
+      <p class="text-sm text-gray-400"><%= @preference.equipment_notes %></p>
+    <% end %>
+  </div>
+
+  <%# Training Goal %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-3">
+    <h2 class="font-semibold text-gray-200">Training Goal</h2>
+    <p class="text-gray-300"><%= @preference.training_goal.humanize %></p>
+  </div>
+
+  <%# Muscle Group Priorities %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-3">
+    <h2 class="font-semibold text-gray-200">Muscle Group Priorities</h2>
+    <div class="grid grid-cols-2 gap-2">
+      <% MuscleGroup.order(:name).each do |mg| %>
+        <% priority = @preference.priority_for(mg.name) %>
+        <div class="flex items-center justify-between px-3 py-2 rounded-lg border <%= priority_badge_class(priority) %>">
+          <span class="text-sm font-medium"><%= mg.name %></span>
+          <span class="text-xs"><%= priority.capitalize %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Style Preferences %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-3">
+    <h2 class="font-semibold text-gray-200">Workout Style</h2>
+    <% if @preference.workout_style.any? %>
+      <div class="flex flex-wrap gap-2">
+        <% @preference.style_display_names.each do |name| %>
+          <span class="px-2 py-1 text-sm bg-gray-800 text-gray-300 border border-gray-700 rounded-lg"><%= name %></span>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-500">No style preferences set</p>
+    <% end %>
+    <% if @preference.style_notes.present? %>
+      <p class="text-sm text-gray-400"><%= @preference.style_notes %></p>
+    <% end %>
+  </div>
+
+  <%# Injuries %>
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 space-y-3">
+    <h2 class="font-semibold text-gray-200">Injuries & Limitations</h2>
+    <% if @preference.injuries_notes.present? %>
+      <p class="text-sm text-gray-300"><%= @preference.injuries_notes %></p>
+    <% else %>
+      <p class="text-sm text-gray-500">None specified</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Edit Preferences", edit_preferences_path,
+    class: "block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition" %>
+
+  <%= link_to "Back to Profile", profile_path,
+    class: "block w-full text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition" %>
+</div>

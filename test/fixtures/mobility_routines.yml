@@ -1,0 +1,24 @@
+logged_static:
+  user: one
+  date: <%= Date.current %>
+  duration_minutes: 15
+  routine_type: static_stretching
+  focus_area: hips
+  status: 0
+  notes: Post-leg day stretching
+
+logged_yoga:
+  user: one
+  date: <%= Date.current - 2.days %>
+  duration_minutes: 20
+  routine_type: yoga
+  focus_area: full_body
+  status: 0
+
+generating_routine:
+  user: one
+  date: <%= Date.current %>
+  duration_minutes: 15
+  routine_type: dynamic_stretching
+  focus_area: shoulders
+  status: 1

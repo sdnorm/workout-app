@@ -1,0 +1,59 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Mobility</h1>
+    <%= link_to "New Routine", new_mobility_routine_path,
+      class: "bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition" %>
+  </div>
+
+  <% if @generating_routine %>
+    <%= link_to mobility_routine_path(@generating_routine), class: "block bg-purple-900/20 rounded-lg border border-purple-800 p-4" do %>
+      <div class="flex items-center gap-3">
+        <svg class="animate-spin h-5 w-5 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <div>
+          <p class="font-medium text-purple-300">Generating routine...</p>
+          <p class="text-sm text-gray-500"><%= @generating_routine.routine_type&.humanize %> &middot; <%= @generating_routine.focus_area&.humanize %></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @mobility_routines.any? %>
+    <div class="space-y-2">
+      <% @mobility_routines.each do |routine| %>
+        <%= link_to mobility_routine_path(routine), class: "block bg-gray-900 rounded-lg border border-gray-800 p-4 hover:border-gray-700 transition" do %>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium">
+                <%= routine.routine_type&.humanize || "Mobility" %>
+                <% if routine.focus_area.present? %>
+                  <span class="text-gray-400">&middot; <%= routine.focus_area.humanize %></span>
+                <% end %>
+              </p>
+              <p class="text-sm text-gray-400"><%= routine.date.strftime("%b %d, %Y") %></p>
+            </div>
+            <div class="text-right">
+              <% if routine.total_duration_display %>
+                <p class="font-medium"><%= routine.total_duration_display %></p>
+              <% end %>
+              <% if routine.mobility_exercises.any? %>
+                <p class="text-sm text-gray-400"><%= routine.mobility_exercises.size %> exercises</p>
+              <% end %>
+            </div>
+          </div>
+          <% if routine.notes.present? %>
+            <p class="text-sm text-gray-500 mt-2"><%= routine.notes %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% elsif @generating_routine.nil? %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 mb-4">No mobility routines yet.</p>
+      <%= link_to "Create Your First Routine", new_mobility_routine_path,
+        class: "text-blue-400 hover:text-blue-300 font-medium" %>
+    </div>
+  <% end %>
+</div>

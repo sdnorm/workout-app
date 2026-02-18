@@ -1,0 +1,9 @@
+one:
+  user: one
+  home_equipment: ["adjustable_dumbbells", "bench", "pull_up_bar"]
+  equipment_notes: "Dumbbells go up to 52.5 lbs each"
+  training_goal: 0
+  muscle_group_priorities: {"Chest": "priority", "Back": "normal"}
+  workout_style: ["prefer_compounds", "prefer_free_weights"]
+  style_notes:
+  injuries_notes:

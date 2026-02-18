@@ -17,6 +17,13 @@ Rails.application.routes.draw do
   end
 
   resources :runs
+  resources :mobility_routines do
+    member do
+      post :generate
+      post :regenerate
+      post :complete
+    end
+  end
   resources :mesocycles do
     member do
       post :start_deload
@@ -25,6 +32,7 @@ Rails.application.routes.draw do
   end
 
   resource :profile, only: [ :show, :edit, :update ]
+  resource :preferences, only: [ :show, :edit, :update ]
 
   # Health check for deployment
   get "up" => "rails/health#show", as: :rails_health_check
