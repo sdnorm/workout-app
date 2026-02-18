@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_055853) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_18_183410) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -131,6 +131,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_055853) do
     t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
   end
 
+  create_table "mobility_exercises", force: :cascade do |t|
+    t.boolean "completed", default: false
+    t.datetime "created_at", null: false
+    t.integer "duration_seconds"
+    t.integer "hold_seconds"
+    t.integer "mobility_routine_id", null: false
+    t.string "name", null: false
+    t.text "notes"
+    t.integer "position", null: false
+    t.integer "reps"
+    t.integer "sets"
+    t.string "side"
+    t.datetime "updated_at", null: false
+    t.index ["mobility_routine_id"], name: "index_mobility_exercises_on_mobility_routine_id"
+  end
+
+  create_table "mobility_routines", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.integer "duration_minutes"
+    t.string "focus_area"
+    t.text "generation_error"
+    t.text "notes"
+    t.string "routine_type"
+    t.integer "status", default: 0
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_mobility_routines_on_user_id"
+  end
+
   create_table "models", force: :cascade do |t|
     t.json "capabilities", default: []
     t.integer "context_window"
@@ -196,6 +226,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_055853) do
     t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
   end
 
+  create_table "user_preferences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "equipment_notes"
+    t.json "home_equipment", default: []
+    t.text "injuries_notes"
+    t.json "muscle_group_priorities", default: {}
+    t.text "style_notes"
+    t.integer "training_goal", default: 0
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.json "workout_style", default: []
+    t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "default_provider", default: "anthropic"
@@ -252,10 +296,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_055853) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
+  add_foreign_key "mobility_exercises", "mobility_routines"
+  add_foreign_key "mobility_routines", "users"
   add_foreign_key "runs", "users"
   add_foreign_key "runs", "workouts"
   add_foreign_key "sessions", "users"
   add_foreign_key "tool_calls", "messages"
+  add_foreign_key "user_preferences", "users"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
   add_foreign_key "workouts", "mesocycles"

@@ -1,0 +1,68 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">New Mobility Routine</h1>
+
+  <%= form_with model: @mobility_routine, class: "space-y-6" do |f| %>
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-3">Routine type</label>
+      <div class="grid grid-cols-2 gap-3">
+        <% [
+          ["Static Stretching", "static_stretching", "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"],
+          ["Dynamic Stretching", "dynamic_stretching", "M13 10V3L4 14h7v7l9-11h-7z"],
+          ["Yoga", "yoga", "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"],
+          ["Foam Rolling", "foam_rolling", "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"],
+        ].each_with_index do |(label, value, icon_path), i| %>
+          <label class="cursor-pointer">
+            <input type="radio" name="mobility_routine[routine_type]" value="<%= value %>" class="peer hidden" <%= "checked" if i == 0 %>>
+            <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl p-4 text-center transition">
+              <svg class="w-8 h-8 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= icon_path %>"/></svg>
+              <span class="font-semibold text-sm"><%= label %></span>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-3">Focus area</label>
+      <div class="grid grid-cols-3 gap-3">
+        <% [
+          ["Full Body", "full_body"],
+          ["Hips", "hips"],
+          ["Shoulders", "shoulders"],
+          ["Spine", "spine"],
+          ["Lower Body", "lower_body"],
+          ["Upper Body", "upper_body"],
+        ].each_with_index do |(label, value), i| %>
+          <label class="cursor-pointer">
+            <input type="radio" name="mobility_routine[focus_area]" value="<%= value %>" class="peer hidden" <%= "checked" if i == 0 %>>
+            <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl py-3 text-center transition">
+              <span class="font-semibold text-sm"><%= label %></span>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-3">Duration</label>
+      <div class="grid grid-cols-4 gap-3">
+        <% [10, 15, 20, 30].each do |mins| %>
+          <label class="cursor-pointer">
+            <input type="radio" name="mobility_routine[duration_minutes]" value="<%= mins %>" class="peer hidden" <%= "checked" if mins == 15 %>>
+            <div class="peer-checked:border-blue-500 peer-checked:bg-blue-900/30 border-2 border-gray-700 rounded-xl py-3 text-center transition">
+              <span class="font-semibold text-lg"><%= mins %></span>
+              <span class="text-xs text-gray-400 block">min</span>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <%= f.submit "Generate with AI", name: "generate_ai", value: "1",
+        class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition cursor-pointer" %>
+      <%= f.submit "Log Routine", name: "commit",
+        class: "w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-xl transition cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

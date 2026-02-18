@@ -1,0 +1,106 @@
+<div class="space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold"><%= @mobility_routine.routine_type&.humanize || "Mobility Routine" %></h1>
+      <p class="text-sm text-gray-400">
+        <%= @mobility_routine.date.strftime("%A, %b %d") %>
+        <% if @mobility_routine.focus_area.present? %>
+          &middot; <%= @mobility_routine.focus_area.humanize %>
+        <% end %>
+        <% if @mobility_routine.total_duration_display %>
+          &middot; <%= @mobility_routine.total_duration_display %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+
+  <% if @mobility_routine.generating? %>
+    <div class="text-center py-12" data-controller="poll" data-poll-interval-value="2000">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <svg class="animate-spin h-6 w-6 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-lg text-purple-300 font-medium">Generating your routine...</p>
+      </div>
+      <p class="text-sm text-gray-500">This usually takes 10-15 seconds</p>
+      <%= button_to "Discard", mobility_routine_path(@mobility_routine), method: :delete,
+        form: { data: { turbo_confirm: "Discard this routine?" } },
+        class: "mt-4 text-sm text-gray-500 hover:text-red-400 transition" %>
+    </div>
+  <% elsif @mobility_routine.generation_failed? %>
+    <div class="text-center py-8">
+      <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-4 mx-auto max-w-md">
+        <p class="text-red-300 font-medium mb-2">Routine generation failed</p>
+        <% if @mobility_routine.generation_error.present? %>
+          <p class="text-sm text-red-400/80"><%= @mobility_routine.generation_error %></p>
+        <% end %>
+      </div>
+      <div class="flex items-center justify-center gap-3">
+        <%= button_to "Retry", generate_mobility_routine_path(@mobility_routine),
+          class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+        <%= button_to "Discard", mobility_routine_path(@mobility_routine), method: :delete,
+          form: { data: { turbo_confirm: "Discard this routine?" } },
+          class: "text-sm text-gray-500 hover:text-red-400 transition py-3 px-4" %>
+      </div>
+    </div>
+  <% else %>
+    <% if @mobility_exercises.any? %>
+      <div class="space-y-3">
+        <% @mobility_exercises.each do |exercise| %>
+          <div class="bg-gray-900 rounded-lg border border-gray-800 p-4">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-gray-500 font-mono"><%= exercise.position %></span>
+                  <h3 class="font-semibold"><%= exercise.name %></h3>
+                  <% if exercise.completed? %>
+                    <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  <% end %>
+                </div>
+                <p class="text-sm text-gray-400 mt-1">
+                  <%= exercise.prescription_display %>
+                  <% if exercise.duration_display %>
+                    <span class="text-gray-500">&middot; <%= exercise.duration_display %></span>
+                  <% end %>
+                </p>
+                <% if exercise.notes.present? %>
+                  <p class="text-sm text-gray-500 mt-1"><%= exercise.notes %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex gap-3 pt-4">
+        <% unless @mobility_exercises.all?(&:completed?) %>
+          <%= button_to "Complete All", complete_mobility_routine_path(@mobility_routine),
+            class: "flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition" %>
+        <% end %>
+        <%= button_to "Regenerate", regenerate_mobility_routine_path(@mobility_routine),
+          class: "bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition",
+          data: { turbo_confirm: "This will replace all exercises. Continue?" } %>
+        <%= button_to "Delete", mobility_routine_path(@mobility_routine), method: :delete,
+          form: { data: { turbo_confirm: "Delete this routine?" } },
+          class: "px-4 py-3 rounded-lg border border-gray-700 text-gray-400 hover:text-red-400 hover:border-red-800 transition text-sm font-medium" %>
+      </div>
+    <% else %>
+      <div class="text-center py-8">
+        <p class="text-gray-400 mb-4">No exercises in this routine.</p>
+        <div class="flex items-center justify-center gap-3">
+          <%= button_to "Generate with AI", generate_mobility_routine_path(@mobility_routine),
+            class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition" %>
+          <%= link_to "Edit", edit_mobility_routine_path(@mobility_routine),
+            class: "text-gray-400 hover:text-gray-300 py-3 px-4" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @mobility_routine.notes.present? %>
+    <div class="bg-gray-900 rounded-lg border border-gray-800 p-3">
+      <p class="text-sm text-gray-400"><%= @mobility_routine.notes %></p>
+    </div>
+  <% end %>
+</div>

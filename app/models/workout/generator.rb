@@ -40,14 +40,13 @@ class Workout::Generator
 
   def system_prompt
     rp_guide = File.read(Rails.root.join("guides", "rp_methodology.md"))
-    equipment_guide = File.read(Rails.root.join("guides", "equipment_profiles.md"))
 
     <<~PROMPT
       You are an expert strength training coach following Renaissance Periodization (RP) methodology.
 
       #{rp_guide}
 
-      #{equipment_guide}
+      #{build_preferences_context}
 
       IMPORTANT RULES:
       - Always return valid JSON and nothing else
@@ -192,6 +191,54 @@ class Workout::Generator
       content.match(/```(?:json)?\s*\n?(.*?)\n?```/m)&.captures&.first || content
     else
       content.strip
+    end
+  end
+
+  def build_preferences_context
+    pref = user.preference
+    return File.read(Rails.root.join("guides", "equipment_profiles.md")) unless pref
+
+    sections = []
+
+    # Equipment
+    if pref.home_equipment.any?
+      sections << "HOME EQUIPMENT:\n#{pref.equipment_display_names.map { |n| "- #{n}" }.join("\n")}"
+      sections << "Equipment notes: #{pref.equipment_notes}" if pref.equipment_notes.present?
+    else
+      sections << File.read(Rails.root.join("guides", "equipment_profiles.md"))
+    end
+
+    # Training goal
+    sections << "TRAINING GOAL: #{pref.training_goal.humanize}\n#{training_goal_guidance(pref.training_goal)}"
+
+    # Muscle group priorities
+    priorities = MuscleGroup.order(:name).map { |mg| "- #{mg.name}: #{pref.priority_for(mg.name)}" }
+    sections << "MUSCLE GROUP PRIORITIES (adjust volume accordingly — priority muscles get more sets near MRV, maintenance muscles stay near MEV):\n#{priorities.join("\n")}"
+
+    # Style preferences
+    if pref.workout_style.any?
+      sections << "STYLE PREFERENCES:\n#{pref.style_display_names.map { |n| "- #{n}" }.join("\n")}"
+      sections << "Style notes: #{pref.style_notes}" if pref.style_notes.present?
+    end
+
+    # Injuries
+    if pref.injuries_notes.present?
+      sections << "IMPORTANT — INJURIES & LIMITATIONS (avoid exercises that aggravate these):\n#{pref.injuries_notes}"
+    end
+
+    sections.join("\n\n")
+  end
+
+  def training_goal_guidance(goal)
+    case goal
+    when "hypertrophy"
+      "Focus on moderate loads (8-15 reps), controlled eccentrics, and maximizing time under tension. Prioritize muscle growth over strength PRs."
+    when "strength"
+      "Focus on heavier loads (3-6 reps) for compounds with longer rest periods. Include accessory hypertrophy work (8-12 reps) for weak points."
+    when "recomp"
+      "Balance hypertrophy rep ranges (8-12) with moderate volume. Prioritize compounds to maximize calorie expenditure while building muscle."
+    when "cut"
+      "Maintain intensity but reduce volume slightly to manage recovery on a caloric deficit. Keep compound lifts heavy (4-8 reps) and limit isolation volume."
     end
   end
 end

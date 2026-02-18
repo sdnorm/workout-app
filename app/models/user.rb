@@ -4,7 +4,9 @@ class User < ApplicationRecord
   has_many :mesocycles, dependent: :destroy
   has_many :workouts, dependent: :destroy
   has_many :runs, dependent: :destroy
+  has_many :mobility_routines, dependent: :destroy
   has_many :chats, dependent: :destroy
+  has_one :preference, class_name: "UserPreference", dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 

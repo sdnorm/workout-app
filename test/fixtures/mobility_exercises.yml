@@ -1,0 +1,31 @@
+pigeon_stretch:
+  mobility_routine: logged_static
+  name: Pigeon Stretch
+  position: 1
+  duration_seconds: 60
+  sets: 2
+  hold_seconds: 30
+  side: left
+  notes: Keep hips square, lean forward gently
+  completed: false
+
+hip_cars:
+  mobility_routine: logged_static
+  name: Hip CARs
+  position: 2
+  duration_seconds: 60
+  sets: 2
+  reps: 5
+  side: left
+  notes: Slow controlled circles, maximize range
+  completed: false
+
+couch_stretch:
+  mobility_routine: logged_static
+  name: Couch Stretch
+  position: 3
+  duration_seconds: 60
+  hold_seconds: 30
+  side: left
+  notes: Squeeze glute on stretching side
+  completed: true

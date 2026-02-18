@@ -1,0 +1,10 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Edit Mobility Routine</h1>
+  <%= render "form", mobility_routine: @mobility_routine %>
+
+  <div class="pt-4 border-t border-gray-800">
+    <%= button_to "Delete Routine", mobility_routine_path(@mobility_routine), method: :delete,
+      class: "text-red-400 hover:text-red-300 text-sm",
+      data: { turbo_confirm: "Delete this routine?" } %>
+  </div>
+</div>
