@@ -45,13 +45,13 @@ class UserPreferenceTest < ActiveSupport::TestCase
   end
 
   test "validates equipment keys" do
-    @preference.home_equipment = ["invalid_key"]
+    @preference.home_equipment = [ "invalid_key" ]
     assert_not @preference.valid?
     assert @preference.errors[:home_equipment].any?
   end
 
   test "validates style keys" do
-    @preference.workout_style = ["bad_style"]
+    @preference.workout_style = [ "bad_style" ]
     assert_not @preference.valid?
     assert @preference.errors[:workout_style].any?
   end
