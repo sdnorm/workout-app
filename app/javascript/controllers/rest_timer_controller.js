@@ -64,6 +64,24 @@ export default class extends Controller {
     this.containerTarget.hidden = true
   }
 
+  addTime() {
+    this.secondsValue += 15
+    this.totalValue += 15
+    this.updateDisplay()
+  }
+
+  subtractTime() {
+    const newSeconds = Math.max(0, this.secondsValue - 15)
+    const reduction = this.secondsValue - newSeconds
+    this.secondsValue = newSeconds
+    this.totalValue = Math.max(1, this.totalValue - reduction)
+    this.updateDisplay()
+
+    if (this.secondsValue <= 0) {
+      this.complete()
+    }
+  }
+
   updateDisplay() {
     const mins = Math.floor(this.secondsValue / 60)
     const secs = this.secondsValue % 60
