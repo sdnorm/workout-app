@@ -39,12 +39,12 @@ class Workout::Generator
   end
 
   def system_prompt
-    rp_guide = File.read(Rails.root.join("guides", "rp_methodology.md"))
+    methodology_content = user.active_training_methodology&.content || File.read(Rails.root.join("guides", "rp_methodology.md"))
 
     <<~PROMPT
-      You are an expert strength training coach following Renaissance Periodization (RP) methodology.
+      You are an expert strength training coach. Follow the training methodology provided below.
 
-      #{rp_guide}
+      #{methodology_content}
 
       #{build_preferences_context}
 

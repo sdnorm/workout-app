@@ -1,0 +1,37 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold"><%= @training_methodology.name %></h1>
+      <% if @training_methodology.active? %>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-900/50 text-blue-300 border border-blue-800">Active</span>
+      <% end %>
+    </div>
+    <%= link_to "Back", training_methodologies_path, class: "text-sm text-gray-400 hover:text-white transition" %>
+  </div>
+
+  <% if @training_methodology.description.present? %>
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+      <p class="text-sm text-gray-400"><%= @training_methodology.description %></p>
+    </div>
+  <% end %>
+
+  <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+    <h2 class="text-sm font-medium text-gray-400 mb-2">Content</h2>
+    <div class="text-sm whitespace-pre-wrap font-mono text-gray-300 max-h-96 overflow-y-auto"><%= @training_methodology.content %></div>
+  </div>
+
+  <div class="flex gap-3">
+    <%= link_to "Edit", edit_training_methodology_path(@training_methodology),
+      class: "flex-1 text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition" %>
+
+    <% unless @training_methodology.active? %>
+      <%= button_to "Activate", activate_training_methodology_path(@training_methodology),
+        class: "flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition" %>
+    <% end %>
+
+    <%= button_to "Delete", training_methodology_path(@training_methodology),
+      method: :delete,
+      class: "flex-1 bg-red-900/30 hover:bg-red-900/50 text-red-400 font-medium py-2 rounded-lg border border-red-800 transition",
+      data: { turbo_confirm: "Delete this training methodology?" } %>
+  </div>
+</div>

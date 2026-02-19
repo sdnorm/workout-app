@@ -6,11 +6,16 @@ class User < ApplicationRecord
   has_many :runs, dependent: :destroy
   has_many :mobility_routines, dependent: :destroy
   has_many :chats, dependent: :destroy
+  has_many :training_methodologies, dependent: :destroy
   has_one :preference, class_name: "UserPreference", dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   enum :training_experience, { beginner: 0, intermediate: 1, advanced: 2 }
+
+  def active_training_methodology
+    training_methodologies.active.order(created_at: :desc).first
+  end
 
   def active_mesocycle
     mesocycles.active.order(created_at: :desc).first

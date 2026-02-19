@@ -1,0 +1,15 @@
+rp_default:
+  user: one
+  name: RP Hypertrophy
+  description: Renaissance Periodization methodology
+  content: "Volume landmarks, mesocycle structure, RIR progression."
+  active: true
+  public: false
+
+custom_inactive:
+  user: one
+  name: Custom Program
+  description: My custom training approach
+  content: "Focus on strength with periodized volume."
+  active: false
+  public: false

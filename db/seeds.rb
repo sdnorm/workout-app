@@ -204,4 +204,20 @@ User.find_or_create_by!(email_address: "sdnorm@example.com") do |u|
 end
 
 puts "  User: sdnorm@example.com / password123"
+
+# ─── Training Methodology ────────────────────────────────────────────────────
+
+puts "Seeding training methodology..."
+
+user = User.find_by!(email_address: "sdnorm@example.com")
+rp_content = File.read(Rails.root.join("guides", "rp_methodology.md"))
+
+methodology = TrainingMethodology.find_or_create_by!(user: user, name: "RP Hypertrophy") do |tm|
+  tm.description = "Renaissance Periodization methodology — volume landmarks, mesocycle structure, RIR progression, and deload protocols."
+  tm.content = rp_content
+  tm.active = true
+end
+methodology.activate! unless methodology.active?
+
+puts "  Created training methodology: #{methodology.name}"
 puts "Done!"

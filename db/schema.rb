@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_183410) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_18_200318) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -226,6 +226,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_183410) do
     t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
   end
 
+  create_table "training_methodologies", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.boolean "public", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "active"], name: "index_training_methodologies_on_user_id_and_active"
+    t.index ["user_id"], name: "index_training_methodologies_on_user_id"
+  end
+
   create_table "user_preferences", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "equipment_notes"
@@ -302,6 +315,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_183410) do
   add_foreign_key "runs", "workouts"
   add_foreign_key "sessions", "users"
   add_foreign_key "tool_calls", "messages"
+  add_foreign_key "training_methodologies", "users"
   add_foreign_key "user_preferences", "users"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
