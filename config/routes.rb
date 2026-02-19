@@ -33,6 +33,11 @@ Rails.application.routes.draw do
 
   resource :profile, only: [ :show, :edit, :update ]
   resource :preferences, only: [ :show, :edit, :update ]
+  resources :training_methodologies do
+    member do
+      post :activate
+    end
+  end
 
   # Health check for deployment
   get "up" => "rails/health#show", as: :rails_health_check

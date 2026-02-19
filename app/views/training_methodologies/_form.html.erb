@@ -1,0 +1,26 @@
+<%= form_with(model: training_methodology, class: "space-y-4") do |form| %>
+  <% if training_methodology.errors.any? %>
+    <div class="bg-red-900/30 border border-red-800 rounded-lg p-3">
+      <% training_methodology.errors.full_messages.each do |message| %>
+        <p class="text-sm text-red-400"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "block text-sm font-medium text-gray-300 mb-1" %>
+    <%= form.text_field :name, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= form.label :description, class: "block text-sm font-medium text-gray-300 mb-1" %>
+    <%= form.text_area :description, rows: 2, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= form.label :content, class: "block text-sm font-medium text-gray-300 mb-1" %>
+    <%= form.text_area :content, rows: 20, class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <%= form.submit class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition cursor-pointer" %>
+<% end %>
